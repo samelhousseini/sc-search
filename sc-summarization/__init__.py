@@ -35,7 +35,7 @@ def analyze_doc(doc_id, cs_doc):
 
 
     except Exception as e:                       
-        return "something wrong with db connection " + COSMOSURI + " " + COSMOSKEY
+        return "something wrong with db connection " 
 
     try:
         document = items.next()
