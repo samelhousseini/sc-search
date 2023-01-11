@@ -1,0 +1,130 @@
+{
+  "name": "cognitive-indexer",
+  "description": null,
+  "dataSourceName": "cognitive",
+  "skillsetName": "cognitive-skillset",
+  "targetIndexName": "data-index",
+  "disabled": null,
+  "schedule": {
+    "interval": "PT5M",
+    "startTime": "2022-10-28T09:26:05.316Z"
+  },
+  "parameters": {
+    "batchSize": null,
+    "maxFailedItems": null,
+    "maxFailedItemsPerBatch": null,
+    "base64EncodeKeys": true,
+    "configuration": {
+      "parsingMode": "json"
+    }
+  },
+  "fieldMappings": [],
+  "outputFieldMappings": [
+    {
+      "sourceFieldName": "/document/path_tags/*/path_tags_ar",
+      "targetFieldName": "path_tags_ar"
+    },
+    {
+      "sourceFieldName": "/document/file_tags/*/file_tags_ar",
+      "targetFieldName": "file_tags_ar"
+    },
+    {
+      "sourceFieldName": "/document/content/content_en",
+      "targetFieldName": "content"
+    },
+    {
+      "sourceFieldName": "/document/content/content_ar",
+      "targetFieldName": "content_ar"
+    },
+    {
+      "sourceFieldName": "/document/ocr/ocr_en",
+      "targetFieldName": "ocr_en"
+    },
+    {
+      "sourceFieldName": "/document/ocr/ocr_ar",
+      "targetFieldName": "ocr_ar"
+    },
+    {
+      "sourceFieldName": "/document/file_uri_westeurope",
+      "targetFieldName": "url_balancer"
+    },
+    {
+      "sourceFieldName": "/document/path_tags_hierarchy/0",
+      "targetFieldName": "path_tags_level1"
+    },
+    {
+      "sourceFieldName": "/document/path_tags_hierarchy/1",
+      "targetFieldName": "path_tags_level2"
+    },
+    {
+      "sourceFieldName": "/document/path_tags/0/path_tags_h_ar",
+      "targetFieldName": "path_tags_level1_ar"
+    },
+    {
+      "sourceFieldName": "/document/path_merged",
+      "targetFieldName": "path_tags_level2_ar"
+    },
+    {
+      "sourceFieldName": "/document/info_tags/abstract",
+      "targetFieldName": "abstract"
+    },
+    {
+      "sourceFieldName": "/document/info_tags/subject",
+      "targetFieldName": "subject"
+    },
+    {
+      "sourceFieldName": "/document/info_tags/comment",
+      "targetFieldName": "comment"
+    },
+    {
+      "sourceFieldName": "/document/info_tags/abstract/abstract_ar",
+      "targetFieldName": "abstract_ar"
+    },
+    {
+      "sourceFieldName": "/document/info_tags/subject/subject_ar",
+      "targetFieldName": "subject_ar"
+    },
+    {
+      "sourceFieldName": "/document/info_tags/comment/comment_ar",
+      "targetFieldName": "comment_ar"
+    },
+    {
+      "sourceFieldName": "/document/metadata_content_type",
+      "targetFieldName": "content_type"
+    },
+    {
+      "sourceFieldName": "/document/metadata_content_type/content_type_ar",
+      "targetFieldName": "content_type_ar"
+    },
+    {
+      "sourceFieldName": "/document/people/*/people_ar",
+      "targetFieldName": "people_ar"
+    },
+    {
+      "sourceFieldName": "/document/organizations/*/organizations_ar",
+      "targetFieldName": "organizations_ar"
+    },
+    {
+      "sourceFieldName": "/document/video_indexer/videos/0/insights/brands/*/name/brands_ar",
+      "targetFieldName": "brands_ar"
+    },
+    {
+      "sourceFieldName": "/document/video_indexer/videos/0/insights/namedLocations/*/name/namedLocations_ar",
+      "targetFieldName": "namedLocations_ar"
+    },
+    {
+      "sourceFieldName": "/document/video_indexer/videos/0/insights/namedPeople/*/name/namedPeople_ar",
+      "targetFieldName": "namedPeople_ar"
+    },
+    {
+      "sourceFieldName": "/document/video_indexer/videos/0/insights/topics/*/name/topics_ar",
+      "targetFieldName": "topics_ar"
+    },
+    {
+      "sourceFieldName": "/document/cv_tags/tags/*/name/tags_ar",
+      "targetFieldName": "tags_ar"
+    }
+  ],
+  "cache": null,
+  "encryptionKey": null
+}

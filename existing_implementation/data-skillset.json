@@ -1,0 +1,678 @@
+{
+  "name": "data-skillset",
+  "skills": [
+    {
+      "@odata.type": "#Microsoft.Skills.Text.V3.EntityRecognitionSkill",
+      "name": "#1",
+      "description": null,
+      "context": "/document/merged_content",
+      "categories": [
+        "Product",
+        "PhoneNumber",
+        "Person",
+        "Quantity",
+        "Organization",
+        "IPAddress",
+        "URL",
+        "Email",
+        "Event",
+        "Skill",
+        "Location",
+        "PersonType",
+        "Address",
+        "DateTime"
+      ],
+      "defaultLanguageCode": "en",
+      "minimumPrecision": null,
+      "modelVersion": null,
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/merged_content"
+        },
+        {
+          "name": "languageCode",
+          "source": "/document/language"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "persons",
+          "targetName": "people"
+        },
+        {
+          "name": "organizations",
+          "targetName": "organizations"
+        },
+        {
+          "name": "locations",
+          "targetName": "locations"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.KeyPhraseExtractionSkill",
+      "name": "#2",
+      "description": null,
+      "context": "/document/merged_content",
+      "defaultLanguageCode": "en",
+      "maxKeyPhraseCount": null,
+      "modelVersion": null,
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/merged_content"
+        },
+        {
+          "name": "languageCode",
+          "source": "/document/language"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "keyPhrases",
+          "targetName": "keyphrases"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.PIIDetectionSkill",
+      "name": "#3",
+      "description": null,
+      "context": "/document/merged_content",
+      "defaultLanguageCode": "en",
+      "minimumPrecision": 0.5,
+      "maskingMode": "replace",
+      "maskingCharacter": "*",
+      "modelVersion": null,
+      "piiCategories": [],
+      "domain": "none",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/merged_content"
+        },
+        {
+          "name": "languageCode",
+          "source": "/document/language"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "piiEntities",
+          "targetName": "pii_entities"
+        },
+        {
+          "name": "maskedText",
+          "targetName": "masked_text"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.MergeSkill",
+      "name": "#4",
+      "description": null,
+      "context": "/document",
+      "insertPreTag": " ",
+      "insertPostTag": " ",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/content"
+        },
+        {
+          "name": "itemsToInsert",
+          "source": "/document/normalized_images/*/text"
+        },
+        {
+          "name": "offsets",
+          "source": "/document/normalized_images/*/contentOffset"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "mergedText",
+          "targetName": "merged_content"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Vision.OcrSkill",
+      "name": "#5",
+      "description": null,
+      "context": "/document/normalized_images/*",
+      "textExtractionAlgorithm": null,
+      "lineEnding": "Space",
+      "defaultLanguageCode": "en",
+      "detectOrientation": true,
+      "inputs": [
+        {
+          "name": "image",
+          "source": "/document/normalized_images/*"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "targetName": "text"
+        },
+        {
+          "name": "layoutText",
+          "targetName": "layoutText"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Vision.ImageAnalysisSkill",
+      "name": "#6",
+      "description": null,
+      "context": "/document/normalized_images/*",
+      "defaultLanguageCode": "en",
+      "visualFeatures": [
+        "tags",
+        "description",
+        "brands",
+        "categories"
+      ],
+      "details": [
+        "celebrities",
+        "landmarks"
+      ],
+      "inputs": [
+        {
+          "name": "image",
+          "source": "/document/normalized_images/*"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "tags",
+          "targetName": "imageTags"
+        },
+        {
+          "name": "description",
+          "targetName": "imageCaption"
+        },
+        {
+          "name": "brands"
+        },
+        {
+          "name": "categories"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.TranslationSkill",
+      "name": "#7",
+      "description": null,
+      "context": "/document/path_tags/*",
+      "defaultFromLanguageCode": null,
+      "defaultToLanguageCode": "ar",
+      "suggestedFrom": "en",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/path_tags/*"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "translatedText",
+          "targetName": "path_tags_ar"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.TranslationSkill",
+      "name": "#8",
+      "description": null,
+      "context": "/document/file_tags/*",
+      "defaultFromLanguageCode": null,
+      "defaultToLanguageCode": "ar",
+      "suggestedFrom": "en",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/file_tags/*"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "translatedText",
+          "targetName": "file_tags_ar"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.SplitSkill",
+      "name": "#9",
+      "description": null,
+      "context": "/document/merged_content",
+      "defaultLanguageCode": "en",
+      "textSplitMode": "pages",
+      "maximumPageLength": 48000,
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/merged_content"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "textItems",
+          "targetName": "pages"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.TranslationSkill",
+      "name": "#10",
+      "description": "",
+      "context": "/document/merged_content/pages/*",
+      "defaultFromLanguageCode": "en",
+      "defaultToLanguageCode": "ar",
+      "suggestedFrom": "en",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/merged_content/pages/*"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "translatedText",
+          "targetName": "text_ar"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.TranslationSkill",
+      "name": "#11",
+      "description": "",
+      "context": "/document/merged_content/pages/*",
+      "defaultFromLanguageCode": "ar",
+      "defaultToLanguageCode": "en",
+      "suggestedFrom": "en",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/merged_content/pages/*"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "translatedText",
+          "targetName": "text_en"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.TranslationSkill",
+      "name": "#12",
+      "description": null,
+      "context": "/document/content_type",
+      "defaultFromLanguageCode": null,
+      "defaultToLanguageCode": "ar",
+      "suggestedFrom": "en",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/content_type"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "translatedText",
+          "targetName": "content_type_ar"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.TranslationSkill",
+      "name": "#13",
+      "description": null,
+      "context": "/document/merged_content/people/*",
+      "defaultFromLanguageCode": null,
+      "defaultToLanguageCode": "ar",
+      "suggestedFrom": "en",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/merged_content/people/*"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "translatedText",
+          "targetName": "people_ar"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.TranslationSkill",
+      "name": "#14",
+      "description": null,
+      "context": "/document/merged_content/organizations/*",
+      "defaultFromLanguageCode": null,
+      "defaultToLanguageCode": "ar",
+      "suggestedFrom": "en",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/merged_content/organizations/*"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "translatedText",
+          "targetName": "organizations_ar"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.TranslationSkill",
+      "name": "#15",
+      "description": null,
+      "context": "/document/merged_content/locations/*",
+      "defaultFromLanguageCode": null,
+      "defaultToLanguageCode": "ar",
+      "suggestedFrom": "en",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/merged_content/locations/*"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "translatedText",
+          "targetName": "locations_ar"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.TranslationSkill",
+      "name": "#16",
+      "description": null,
+      "context": "/document/normalized_images/*/imageTags/*/name",
+      "defaultFromLanguageCode": null,
+      "defaultToLanguageCode": "ar",
+      "suggestedFrom": "en",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/normalized_images/*/imageTags/*/name"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "translatedText",
+          "targetName": "imageTags_ar"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.TranslationSkill",
+      "name": "#17",
+      "description": null,
+      "context": "/document/normalized_images/*/imageCaption/*/captions/*/name",
+      "defaultFromLanguageCode": null,
+      "defaultToLanguageCode": "ar",
+      "suggestedFrom": "en",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/normalized_images/*/imageCaption/*/captions/*/name"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "translatedText",
+          "targetName": "imageCaption_ar"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.TranslationSkill",
+      "name": "#18",
+      "description": null,
+      "context": "/document/normalized_images/*/brands/*/name",
+      "defaultFromLanguageCode": null,
+      "defaultToLanguageCode": "ar",
+      "suggestedFrom": "en",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/normalized_images/*/brands/*/name"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "translatedText",
+          "targetName": "brands_ar"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.TranslationSkill",
+      "name": "#19",
+      "description": null,
+      "context": "/document/normalized_images/*/categories/*/detail/celebrities/*/name",
+      "defaultFromLanguageCode": null,
+      "defaultToLanguageCode": "ar",
+      "suggestedFrom": "en",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/normalized_images/*/categories/*/detail/celebrities/*/name"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "translatedText",
+          "targetName": "celebrities_ar"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.TranslationSkill",
+      "name": "#20",
+      "description": null,
+      "context": "/document/normalized_images/*/categories/*/detail/celebrities/*/name",
+      "defaultFromLanguageCode": null,
+      "defaultToLanguageCode": "ar",
+      "suggestedFrom": "en",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/normalized_images/*/categories/*/detail/landmarks/*/name"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "translatedText",
+          "targetName": "landmarks_ar"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.TranslationSkill",
+      "name": "#21",
+      "context": "/document/path_tags/0",
+      "defaultFromLanguageCode": "en",
+      "defaultToLanguageCode": "ar",
+      "suggestedFrom": "en",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/path_tags/0"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "translatedText",
+          "targetName": "path_tags_h_ar"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.TranslationSkill",
+      "name": "#22",
+      "context": "/document/path_tags/1",
+      "defaultFromLanguageCode": "en",
+      "defaultToLanguageCode": "ar",
+      "suggestedFrom": "en",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/path_tags/1"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "translatedText",
+          "targetName": "path_tags_h_ar"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.MergeSkill",
+      "name": "#23",
+      "context": "/document",
+      "insertPreTag": "/",
+      "insertPostTag": "",
+      "inputs": [
+        {
+          "name": "itemsToInsert",
+          "source": "/document/path_tags/*/path_tags_h_ar"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "mergedText",
+          "targetName": "path_merged"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.TranslationSkill",
+      "name": "#24",
+      "description": "",
+      "context": "/document/comment",
+      "defaultFromLanguageCode": "en",
+      "defaultToLanguageCode": "ar",
+      "suggestedFrom": "en",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/comment"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "translatedText",
+          "targetName": "comment_ar"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.TranslationSkill",
+      "name": "#25",
+      "description": "",
+      "context": "/document/abstract",
+      "defaultFromLanguageCode": "en",
+      "defaultToLanguageCode": "ar",
+      "suggestedFrom": "en",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/abstract"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "translatedText",
+          "targetName": "abstract_ar"
+        }
+      ]
+    }
+  ],
+  "cognitiveServices": {
+    "@odata.type": "#Microsoft.Azure.Search.CognitiveServicesByKey",
+    "description": "{SUBSCRIPTION_COGNITIVE}",
+    "key": "{COGNITIVE_KEY}"
+  },
+  "knowledgeStore": {
+    "storageConnectionString": "{CONN_STRING}",
+    "identity": null,
+    "projections": [
+      {
+        "tables": [
+          {
+            "tableName": "azureblobSkillsetKnowledgeDocument",
+            "referenceKeyName": null,
+            "generatedKeyName": "Documentid",
+            "source": "/document/tableprojection",
+            "sourceContext": null,
+            "inputs": []
+          },
+          {
+            "tableName": "azureblobSkillsetKnowledgeKeyPhrases",
+            "referenceKeyName": null,
+            "generatedKeyName": "KeyPhrasesid",
+            "source": null,
+            "sourceContext": "/document/tableprojection/keyPhrases/*",
+            "inputs": [
+              {
+                "name": "keyphrases",
+                "source": "/document/tableprojection/keyPhrases/*",
+                "sourceContext": null,
+                "inputs": []
+              }
+            ]
+          },
+          {
+            "tableName": "azureblobSkillsetKnowledgeEntities",
+            "referenceKeyName": null,
+            "generatedKeyName": "Entitiesid",
+            "source": "/document/tableprojection/Entities/*",
+            "sourceContext": null,
+            "inputs": []
+          },
+          {
+            "tableName": "azureblobSkillsetKnowledgeImages",
+            "referenceKeyName": null,
+            "generatedKeyName": "Imagesid",
+            "source": "/document/tableprojection/Images/*",
+            "sourceContext": null,
+            "inputs": []
+          }
+        ],
+        "objects": [
+          {
+            "storageContainer": "knowledge-con",
+            "referenceKeyName": null,
+            "generatedKeyName": "knowledge-conKey",
+            "source": "/document/objectprojection",
+            "sourceContext": null,
+            "inputs": []
+          }
+        ],
+        "files": [
+          {
+            "storageContainer": "azureblob-skillset-knowledge-image-projection",
+            "referenceKeyName": null,
+            "generatedKeyName": "imagepath",
+            "source": "/document/tableprojection/Images/*/imgdata",
+            "sourceContext": null,
+            "inputs": []
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "synthesizeGeneratedKeyName": true
+    }
+  },
+  "encryptionKey": null
+}

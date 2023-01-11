@@ -1,0 +1,196 @@
+{
+  "name": "{CONTAINER}-indexer",
+  "description": "",
+  "dataSourceName": "{CONTAINER}",
+  "skillsetName": "data-skillset",
+  "targetIndexName": "data-index",
+  "disabled": null,
+  "schedule": {
+    "interval": "PT5M",
+    "startTime": "2022-10-28T09:26:59.538Z"
+  },
+  "parameters": {
+    "batchSize": null,
+    "maxFailedItems": -1,
+    "maxFailedItemsPerBatch": -1,
+    "base64EncodeKeys": true,
+    "configuration": {
+      "imageAction": "generateNormalizedImages",
+      "dataToExtract": "contentAndMetadata",
+      "parsingMode": "default",
+      "allowSkillsetToReadFileData": true,
+      "indexedFileNameExtensions": ".pdf,.pdf,.txt,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.csv,.tsv,.tsv",
+      "excludedFileNameExtensions": ".jpg,.jpg,.png,.jpeg,.PNG,.tif,.JPG,.dwg,.dwg"
+    }
+  },
+  "fieldMappings": [
+    {
+      "sourceFieldName": "metadata_storage_content_md5",
+      "targetFieldName": "metadata_storage_content_md5",
+      "mappingFunction": {
+        "name": "base64Encode"
+      }
+    },
+    {
+      "sourceFieldName": "path_tags",
+      "targetFieldName": "path_tags",
+      "mappingFunction": {
+        "name": "jsonArrayToStringCollection"
+      }
+    },
+    {
+      "sourceFieldName": "file_tags",
+      "targetFieldName": "file_tags",
+      "mappingFunction": {
+        "name": "jsonArrayToStringCollection"
+      }
+    },
+    {
+      "sourceFieldName": "path_tags_hierarchy",
+      "targetFieldName": "path_tags_hierarchy",
+      "mappingFunction": {
+        "name": "jsonArrayToStringCollection"
+      }
+    }
+  ],
+  "outputFieldMappings": [
+    {
+      "sourceFieldName": "/document/merged_content/people",
+      "targetFieldName": "people"
+    },
+    {
+      "sourceFieldName": "/document/merged_content/organizations",
+      "targetFieldName": "organizations"
+    },
+    {
+      "sourceFieldName": "/document/merged_content/locations",
+      "targetFieldName": "locations"
+    },
+    {
+      "sourceFieldName": "/document/merged_content/keyphrases",
+      "targetFieldName": "keyphrases"
+    },
+    {
+      "sourceFieldName": "/document/merged_content/pii_entities",
+      "targetFieldName": "pii_entities"
+    },
+    {
+      "sourceFieldName": "/document/merged_content/masked_text",
+      "targetFieldName": "masked_text"
+    },
+    {
+      "sourceFieldName": "/document/merged_content",
+      "targetFieldName": "merged_content"
+    },
+    {
+      "sourceFieldName": "/document/normalized_images/*/text",
+      "targetFieldName": "text"
+    },
+    {
+      "sourceFieldName": "/document/normalized_images/*/layoutText",
+      "targetFieldName": "layoutText"
+    },
+    {
+      "sourceFieldName": "/document/normalized_images/*/imageTags/*/name",
+      "targetFieldName": "imageTags"
+    },
+    {
+      "sourceFieldName": "/document/normalized_images/*/imageCaption",
+      "targetFieldName": "imageCaption"
+    },
+    {
+      "sourceFieldName": "/document/normalized_images/*/brands/*",
+      "targetFieldName": "imageBrands"
+    },
+    {
+      "sourceFieldName": "/document/normalized_images/*/imageTags_ar/*/name",
+      "targetFieldName": "imageTags_ar"
+    },
+    {
+      "sourceFieldName": "/document/normalized_images/*/imageCaption/*/captions/*/name/imageCaption_ar",
+      "targetFieldName": "imageCaption_ar"
+    },
+    {
+      "sourceFieldName": "/document/normalized_images/*/brands/*/name/brands_ar",
+      "targetFieldName": "imageBrands_ar"
+    },
+    {
+      "sourceFieldName": "/document/normalized_images/*/categories/*/detail/celebrities/*/name",
+      "targetFieldName": "imageCelebrities"
+    },
+    {
+      "sourceFieldName": "/document/normalized_images/*/categories/*/detail/landmarks/*/name",
+      "targetFieldName": "imageLandmarks"
+    },
+    {
+      "sourceFieldName": "/document/normalized_images/*/categories/*/detail/celebrities/*/name/celebrities_ar",
+      "targetFieldName": "imageCelebrities_ar"
+    },
+    {
+      "sourceFieldName": "/document/normalized_images/*/categories/*/detail/landmarks/*/name/landmarks_ar",
+      "targetFieldName": "imageLandmarks_ar"
+    },
+    {
+      "sourceFieldName": "/document/path_tags/*/path_tags_ar",
+      "targetFieldName": "path_tags_ar"
+    },
+    {
+      "sourceFieldName": "/document/file_tags/*/file_tags_ar",
+      "targetFieldName": "file_tags_ar"
+    },
+    {
+      "sourceFieldName": "/document/merged_content/pages/*/text_en",
+      "targetFieldName": "text_en"
+    },
+    {
+      "sourceFieldName": "/document/merged_content/pages/*/text_ar",
+      "targetFieldName": "text_ar"
+    },
+    {
+      "sourceFieldName": "/document/comment/comment_ar",
+      "targetFieldName": "comment_ar"
+    },
+    {
+      "sourceFieldName": "/document/subject/subject_ar",
+      "targetFieldName": "subject_ar"
+    },
+    {
+      "sourceFieldName": "/document/abstract/abstract_ar",
+      "targetFieldName": "abstract_ar"
+    },
+    {
+      "sourceFieldName": "/document/content_type/content_type_ar",
+      "targetFieldName": "content_type_ar"
+    },
+    {
+      "sourceFieldName": "/document/merged_content/people/*/people_ar",
+      "targetFieldName": "people_ar"
+    },
+    {
+      "sourceFieldName": "/document/merged_content/organizations/*/organizations_ar",
+      "targetFieldName": "organizations_ar"
+    },
+    {
+      "sourceFieldName": "/document/merged_content/locations/*/locations_ar",
+      "targetFieldName": "locations_ar"
+    },
+    {
+      "sourceFieldName": "/document/path_tags_hierarchy/0",
+      "targetFieldName": "path_tags_level1"
+    },
+    {
+      "sourceFieldName": "/document/path_tags_hierarchy/1",
+      "targetFieldName": "path_tags_level2"
+    },
+    {
+      "sourceFieldName": "/document/path_tags/0/path_tags_h_ar",
+      "targetFieldName": "path_tags_level1_ar"
+    },
+    {
+      "sourceFieldName": "/document/path_merged",
+      "targetFieldName": "path_tags_level2_ar"
+    }
+  ],
+  "cache": null,
+  "encryptionKey": null
+}
